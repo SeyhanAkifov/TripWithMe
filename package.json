@@ -1,0 +1,19 @@
+{
+  "name": "tripwithme",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "handlebars": "^4.7.7",
+    "jquery": "^3.6.0",
+    "lite-server": "^2.6.1",
+    "sammy": "^0.7.6"
+  }
+}
