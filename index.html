@@ -1,49 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/css/style.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
     <title>Document</title>
 
-     <!-- Modules -->
-     <script src="./node_modules/jquery/dist/jquery.js"></script>
-     <script src="./node_modules/handlebars/dist/handlebars.js"></script>
-     <script src="./node_modules/sammy/lib/sammy.js"></script>
-     <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
-</head>
-<body>
-    <div id="container">
-
-
-        <!-- Header -->
-        
-
-        <!-- Register -->
-        
-
-        <!-- Login -->
-        
-
-        <!-- Home -->
-        
-
-        <!-- Create  -->
-        
-
-        <!-- Details  -->
-        
-
-        <!-- Edit  -->
-        
-
-        <!-- Details Dashboard  -->
-        
-
-        <!-- Footer  -->
-        
+    <!-- Modules -->
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <script src="./node_modules/handlebars/dist/handlebars.js"></script>
+    <script src="./node_modules/sammy/lib/sammy.js"></script>
+    <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+  </head>
+  <body>
+    <div>
+        <div class="notification loadingBox" style="display: none;">
+            Loading …
+        </div>
+        <div class="notification infoBox" style="display: none;">
+            Info
+        </div>
+        <div class="notification errorBox" style="display: none;">
+            Error: destination name can't be empty!
+        </div>
     </div>
+
+    <div id="container">
+      <!-- Header -->
+
+      <!-- Register -->
+
+      <!-- Login -->
+
+      <!-- Home -->
+
+      <!-- Create  -->
+
+      <!-- Details  -->
+
+      <!-- Edit  -->
+
+      <!-- Details Dashboard  -->
+
+      <!-- Footer  -->
+    </div>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC6YaqYMPL8AONkc1u0cqJbX9lXE3SZCLk",
+        authDomain: "tripwithme-28e45.firebaseapp.com",
+        databaseURL:"https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "tripwithme-28e45",
+        storageBucket: "tripwithme-28e45.appspot.com",
+        messagingSenderId: "54739035344",
+        appId: "1:54739035344:web:88695301e70ec7f192aad5",
+        measurementId: "G-K15513RPNQ",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
     <script src="app.js" type="module"></script>
-</body>
+  </body>
 </html>

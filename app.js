@@ -1,3 +1,7 @@
+let errorBox = document.getElementsByClassName('notification errorBox')[0];
+let successBox = document.getElementsByClassName('notification infoBox')[0];
+let loading = document.getElementsByClassName('notification loadingBox')[0];
+
 const router = Sammy('#container', function () {
 
     this.use('Handlebars', 'hbs');
@@ -8,11 +12,12 @@ const router = Sammy('#container', function () {
 
     this.get('/home', async function (context) {
 
-
+        checkAuth(context);
         
 
-        // loading.textContent = "Loading...";
-        // loading.style.display = "inline-block";
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
         await fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json')
 
             .then(response => response.json())
@@ -50,6 +55,28 @@ const router = Sammy('#container', function () {
         })
     });
 
+    this.post('/login', function (context) {
+
+
+        const { email, password } = context.params
+
+        if (!email || !password) {
+            return
+        }
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userInfo) => {
+                localStorage.setItem('userInfo', JSON.stringify({ uid: userInfo.user.uid, email: userInfo.user.email }));
+                context.redirect('/home')
+               
+            })
+            .catch(function (error) {
+                
+                var errorCode = error.code;
+                var errorMessage = error.message;
+               
+            });
+    });
+
     this.get('/register', async function (context) {
 
         await this.loadPartials({
@@ -60,6 +87,72 @@ const router = Sammy('#container', function () {
             this.partial('../templates/register/register.hbs')
         })
     });
+
+    this.post('/register', function (context) {
+        const { email, password, rePassword } = context.params;
+
+        if (!email || !password || !rePassword) {
+            
+            return
+        }
+        if (password !== rePassword) {
+
+            
+            return;
+        }
+        console.log(context)
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((createdUser) => {
+                context.redirect('/login')
+                ;
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                
+                
+        });
+    });
+
+    this.get('/logout', function (context) {
+        console.log(context)
+        firebase.auth().signOut()
+            .then(function () {
+                localStorage.removeItem('userInfo');
+                context.loggedIn = false
+                context.redirect('/home');
+                showMessage(successBox, "Logout successful");
+            }).catch(function (error) {
+                showMessage(errorBox, error.message);
+            })
+
+    });
+
+    function checkAuth(context) {
+
+        if (localStorage.userInfo) {
+            const { uid, email } = JSON.parse(localStorage.userInfo)
+            context.loggedIn = true;
+            context.uid = uid;
+            context.email = email;
+        };
+    };
+
+    function showMessage(type, message) {
+
+
+        type.textContent = message;
+        type.style.display = "inline-block";
+
+
+        setTimeout(() => {
+            type.style.display = "none"
+        }, 3000)
+
+
+    };
 });
 
 (() => {
