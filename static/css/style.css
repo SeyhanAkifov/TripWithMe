@@ -316,6 +316,34 @@ body #container .header-nav-item-title {
     text-decoration: underline;
   }
 
+  .notification {
+    position: fixed;
+    z-index: 10;
+    top: 6rem;
+    right: 5rem;
+    margin: 1rem auto;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: rgb(255, 255, 255);
+    font-style: italic;
+    text-decoration: underline;
+    box-shadow: 0 5px 10px rgb(204, 204, 204);
+    display: none;
+}
+
+.loadingBox {
+    background: #7CB3E9;
+}
+
+.infoBox {
+    background: #393;
+}
+
+.errorBox {
+    background: #F50;
+}
+
 footer {
   background: #1b9772;
   position: fixed;

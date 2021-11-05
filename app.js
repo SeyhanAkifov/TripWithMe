@@ -40,7 +40,7 @@ const router = Sammy('#container', function () {
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
-        })
+        }).then(loading.style.display = "none")
 
     });
 
@@ -67,13 +67,13 @@ const router = Sammy('#container', function () {
             .then((userInfo) => {
                 localStorage.setItem('userInfo', JSON.stringify({ uid: userInfo.user.uid, email: userInfo.user.email }));
                 context.redirect('/home')
-               
+                showMessage(successBox, "Login successful.");
             })
             .catch(function (error) {
                 
                 var errorCode = error.code;
                 var errorMessage = error.message;
-               
+                showMessage(errorBox, error.message);
             });
     });
 
@@ -92,12 +92,12 @@ const router = Sammy('#container', function () {
         const { email, password, rePassword } = context.params;
 
         if (!email || !password || !rePassword) {
-            
+            showMessage(errorBox, "Invalid inputs");
             return
         }
         if (password !== rePassword) {
 
-            
+            showMessage(errorBox, "Passwords doesnt match");
             return;
         }
         console.log(context)
@@ -105,13 +105,13 @@ const router = Sammy('#container', function () {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((createdUser) => {
                 context.redirect('/login')
-                ;
+                showMessage(successBox, "User registration successful.");
             })
             .catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                
+                showMessage(errorBox, errorMessage);
                 
         });
     });
