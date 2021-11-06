@@ -1,12 +1,17 @@
 {{> header}}
 
+
+
 <main>
     <section id="viewCatalog" class="background-img">
     {{#if loggedIn}}
     <div class="added-destinations">
-        {{#each destinations}}
-        {{> destination}}
+        {{#each trips}}
+        {{> trip}}
         {{/each}}
+
+        
+  
 
         {{!-- <a href="" class="added-destination">
             <img src="https://image.freepik.com/free-vector/showplace-illustration-with-all-famous-buildings-linear-banner_1416-984.jpg"

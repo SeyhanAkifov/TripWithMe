@@ -25,11 +25,14 @@ const router = Sammy('#container', function () {
 
                 if (data) {
 
-                    Object.keys(data).map(key => (data[key].creator == context.email ? data[key].isAuthor = true : ""))
+                   
                     
-                    context.destinations = Object.keys(data).map(key => ({ key, ...data[key] }));
+                    context.trips = Object.keys(data).map(key => ({ key, ...data[key] }));
+                    console.log(context.trips);
                  }
             })
+
+            
 
 
 
@@ -37,6 +40,7 @@ const router = Sammy('#container', function () {
         await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
+            'trip' : './templates/catalog/trip.hbs'
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
@@ -111,7 +115,7 @@ const router = Sammy('#container', function () {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                showMessage(errorBox, errorMessage);
+                showMessage(errorBox, errorMessage);  
                 
         });
     });
@@ -129,6 +133,60 @@ const router = Sammy('#container', function () {
             })
 
     });
+
+    this.get('/create', async function (context) {
+
+        await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            
+        }).then(function () {
+            this.partial('../templates/create/create.hbs')
+        })
+    });
+
+    this.post('/create',  function (context) {
+
+        checkAuth(context);
+        const { firstName, lastName, destinationFrom, destinationTo, date, persons } = context.params;
+
+
+        if (!firstName || !lastName || !destinationFrom || !destinationTo || !date || !persons) {
+            showMessage(errorBox, "All input fields shouldn’t be empty")
+            return
+        }
+        
+        if(persons < 1 || persons > 25) {
+            showMessage(errorBox, 'Duration must be between 1…100');
+            return
+        }
+
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+        fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json',
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    firstName, 
+                    lastName, 
+                    destinationFrom, 
+                    destinationTo, 
+                    date, 
+                    persons,
+                    creator: context.email
+
+                })
+            })
+            .then(loading.style.display = "none")
+            .then(showMessage(successBox, 'Successfuly created destination'))
+            .then(async () => await context.redirect('/home'))
+
+        
+
+
+    });
+
+    
 
     function checkAuth(context) {
 

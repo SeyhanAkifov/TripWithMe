@@ -332,6 +332,8 @@ body #container .header-nav-item-title {
     display: none;
 }
 
+
+
 .loadingBox {
     background: #7CB3E9;
 }
@@ -360,4 +362,40 @@ footer {
   color: #55b395;
   margin: auto;
   text-align: center;
+}
+
+.trip{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  flex-basis: 20%;
+  margin: 30px;
+  border-radius: 10px;
+}
+
+.trip h1{
+  width: 100%;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  text-align: center;
+  padding: 25px 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin: 0;
+}
+
+.added-destinations{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.trip p{
+  margin: 20px;
+}
+
+.trip button{
+  margin: 15px;
+  padding: 15px 45px;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
