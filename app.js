@@ -14,7 +14,6 @@ const router = Sammy('#container', function () {
 
         checkAuth(context);
         
-
         loading.textContent = "Loading...";
         loading.style.display = "inline-block";
 
@@ -24,20 +23,12 @@ const router = Sammy('#container', function () {
             .then(data => {
 
                 if (data) {
-
-                   
-                    
                     context.trips = Object.keys(data).map(key => ({ key, ...data[key] }));
                     console.log(context.trips);
                  }
             })
-
             
-
-
-
-
-        await this.loadPartials({
+            await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
             'trip' : './templates/catalog/trip.hbs'
@@ -185,6 +176,35 @@ const router = Sammy('#container', function () {
 
 
     });
+
+    this.get('/myTrips', async function (context){
+
+        checkAuth(context);
+        
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
+        await fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json')
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trips = Object.keys(data).map(key => ({ key, ...data[key] })).filter(data => data.creator == context.email);
+                    console.log(context.trips);
+                    context.trips.filter
+                 }
+            })
+            
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            'trip' : './templates/catalog/trip.hbs'
+            
+        }).then(function () {
+            this.partial('../templates/catalog/home.hbs')
+        }).then(loading.style.display = "none")
+    })
 
     
 
