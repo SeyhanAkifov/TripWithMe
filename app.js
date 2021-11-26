@@ -1,3 +1,5 @@
+
+
 let errorBox = document.getElementsByClassName('notification errorBox')[0];
 let successBox = document.getElementsByClassName('notification infoBox')[0];
 let loading = document.getElementsByClassName('notification loadingBox')[0];
@@ -31,7 +33,8 @@ const router = Sammy('#container', function () {
             await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
-            'trip' : './templates/catalog/trip.hbs'
+            'trip' : './templates/catalog/trip.hbs',
+            'search' : './templates/search/search.hbs'
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
@@ -164,7 +167,8 @@ const router = Sammy('#container', function () {
                     destinationTo, 
                     date, 
                     persons,
-                    creator: context.email
+                    creator: context.email,
+                    joined : ['dryhsn']
 
                 })
             })
@@ -205,6 +209,139 @@ const router = Sammy('#container', function () {
             this.partial('../templates/catalog/home.hbs')
         }).then(loading.style.display = "none")
     })
+
+    this.get('/myJoined', async function (context){
+
+        checkAuth(context);
+        
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
+        await fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json')
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trips = Object.keys(data).map(key => ({ key, ...data[key] })).filter(data => data.joined.includes(context.email));
+                    console.log(context.trips);
+                    context.trips.filter
+                 }
+            })
+            
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            'trip' : './templates/catalog/trip.hbs'
+            
+        }).then(function () {
+            this.partial('../templates/catalog/home.hbs')
+        }).then(loading.style.display = "none")
+    })
+
+    this.get('/search', async function (context){
+        const { from, to } = context.params;
+        
+        checkAuth(context);
+        console.log(context);
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
+        await fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json')
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trips = Object.keys(data).map(key => ({ key, ...data[key] }))
+                    .filter(data => (from ? data.destinationFrom == from : data.destinationFrom) && (to ? data.destinationTo == to : data.destinationTo));
+                    console.log(context.trips);
+                    context.trips.filter
+                 }
+            })
+            
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            'trip' : './templates/catalog/trip.hbs',
+            'search': './templates/search/search.hbs'
+            
+        }).then(function () {
+            this.partial('../templates/catalog/home.hbs')
+        }).then(loading.style.display = "none")
+    })
+
+    this.get('/all', async function (context){
+
+        checkAuth(context);
+        
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
+        await fetch('https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/.json')
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trips = Object.keys(data).map(key => ({ key, ...data[key] }));
+                    console.log(context.trips);
+                    context.trips.filter
+                 }
+            })
+            
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            'trip' : './templates/catalog/trip.hbs'
+            
+        }).then(function () {
+            this.partial('../templates/catalog/home.hbs')
+        }).then(loading.style.display = "none")
+    })
+
+    this.get('/join/:id', async function (context) {
+
+        checkAuth(context);
+
+        
+        
+       let myData = [];
+
+        console.log(context.params.id);
+        const item  = await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`)
+        .then( (response) => response.json())
+       
+
+
+        let left  = item.persons - item.joined.length
+
+        if (item.persons < item.joined.length + 1) {
+            context.redirect('/home')
+            return
+        }
+        console.log(context);
+        console.log(item);
+        console.log(item.joined.length);
+        item.joined.push(context.email);
+        await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`,
+        {
+            method:'PATCH',
+            body : JSON.stringify({
+                firstName : item.firstName, 
+                    lastName : item.lastName,
+                    destinationFrom : item.destinationFrom, 
+                    destinationTo : item.destinationTo, 
+                    date : item.date, 
+                    persons : item.persons,
+                    creator: item.email,
+                    joined : item.joined
+            })
+
+        })
+        .then(async () => await context.redirect('/home'))
+    });
+        
 
     
 

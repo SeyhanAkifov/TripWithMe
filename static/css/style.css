@@ -1,7 +1,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
 
 html {
-  background: url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJpcHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60")
+  background: url('../images/banner.jpg')
     no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -16,6 +16,11 @@ body {
 
 * {
   font-family: Amaranth;
+}
+
+p{
+  font-family: Helvetica, sans-serif;
+  text-align: center;
 }
 
 .button-49 {
@@ -137,7 +142,7 @@ body {
 }
 
 .header {
-  background: white;
+  
 }
 
 .header-nav-item {
@@ -332,7 +337,39 @@ body #container .header-nav-item-title {
     display: none;
 }
 
+.search{
+  display: flex;
+  flex-wrap: wrap;
+  background: rgba(0,0,0,0.1);
+  margin: 50px auto;
+    width: 480px;
+    
+    border-radius: 15px;
+    box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+    padding:20px;
+    align-items: center;
+  
+}
 
+.search button{
+  padding:0;
+  margin: 0;
+  font-size: 12px;
+  max-height: 9px;
+  min-height: 36px;
+  min-width: 66px;
+}
+
+.search .title{
+  font-size: 22px;
+  text-align: center;
+  color: white;
+}
+
+.search input{
+  border-radius: 5px;
+  padding: 10px
+}
 
 .loadingBox {
     background: #7CB3E9;
@@ -353,7 +390,7 @@ footer {
   bottom: 0;
   width: 100%;
   justify-content: center;
-  height: 40px;
+  height: 20px;
   background: grey;
   
 }
@@ -382,6 +419,8 @@ footer {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin: 0;
+  color: white;
+  
 }
 
 .added-destinations{
@@ -394,8 +433,15 @@ footer {
   margin: 20px;
 }
 
-.trip button{
-  margin: 15px;
-  padding: 15px 45px;
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
+.trip h1{
+  font-size: 23px;
 }
+
+.trip button a {
+  color: white;
+}
+.trip button{
+  width: 80%;
+}
+
+
