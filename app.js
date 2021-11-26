@@ -472,7 +472,44 @@ const router = Sammy('#container', function () {
         .then(async () => await context.redirect('/home'))
     });
         
+    this.get('/unJoin/:id', async function (context) {
 
+        checkAuth(context);
+
+        
+        
+       let myData = [];
+
+        console.log(context.params.id);
+        const item  = await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`)
+        .then( (response) => response.json())
+       
+
+
+        let left  = item.persons - item.joined.length
+
+        
+        console.log(context);
+        console.log(item);
+        console.log(item.joined.length);
+        item.joined = item.joined.filter( item => item != context.email);
+        await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`,
+        {
+            method:'PATCH',
+            body : JSON.stringify({
+                firstName : item.firstName, 
+                    lastName : item.lastName,
+                    destinationFrom : item.destinationFrom, 
+                    destinationTo : item.destinationTo, 
+                    date : item.date, 
+                    persons : item.persons,
+                    creator: item.email,
+                    joined : item.joined
+            })
+
+        })
+        .then(async () => await context.redirect('/home'))
+    });
     
 
     function checkAuth(context) {

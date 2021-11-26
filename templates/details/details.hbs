@@ -5,20 +5,21 @@
   <h1>Creator : {{trip.firstName}} {{trip.lastName}}</h1>
   <h3>{{trip.destinationFrom}} to {{trip.destinationTo}}</h3>
   <h5>Trip date : {{trip.date}}</h5>
-  <h5>available : {{left}} presons</h5>
+  <h5>available : {{left}} persons</h5>
+  <h5>Joined: {{trip.joined.length}} persons</h5>
   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe quam id
     exercitationem facilis eum, animi distinctio inventore. Doloremque enim
     quia, beatae laboriosam ut iste commodi. Obcaecati odit fugit exercitationem
     ipsum!</p>
      <article  class="detailButtons">
            {{#if isAuthor}}
-               <button class="button-49 delete" ><a href="/delete/{{key}}">Delete</a></button>
-               <button class="button-49 edit"><a href="/edit/{{key}}">Edit</a></button>
+               <button class="button-49 delete" ><a href="#/delete/{{key}}">Delete</a></button>
+               <button class="button-49 edit"><a href="#/edit/{{key}}">Edit</a></button>
             {{else}}
                 {{#if isJoined}}
-                <button class="button-49"><a href="/join/{{key}}">UnJoin</a></button>
+                <button class="button-49"><a href="#/unJoin/{{key}}">UnJoin</a></button>
                 {{else}}
-                <button class="button-49"><a href="/join/{{key}}">Join</a></button>
+                <button class="button-49"><a href="#/join/{{key}}">Join</a></button>
             {{/if}}
             {{/if}}
                 
