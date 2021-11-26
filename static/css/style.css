@@ -18,6 +18,10 @@ body {
   font-family: Amaranth;
 }
 
+a{
+  text-decoration: none;
+}
+
 p{
   font-family: Helvetica, sans-serif;
   text-align: center;

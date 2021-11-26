@@ -148,7 +148,7 @@ const router = Sammy('#container', function () {
     this.post('/create',  function (context) {
 
         checkAuth(context);
-        const { firstName, lastName, destinationFrom, destinationTo, date, persons } = context.params;
+        const { firstName, lastName, title, description, destinationFrom, destinationTo, date, persons } = context.params;
 
 
         if (!firstName || !lastName || !destinationFrom || !destinationTo || !date || !persons) {
@@ -169,6 +169,8 @@ const router = Sammy('#container', function () {
                 body: JSON.stringify({
                     firstName, 
                     lastName, 
+                    title,
+                    description,
                     destinationFrom, 
                     destinationTo, 
                     date, 

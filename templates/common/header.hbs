@@ -11,7 +11,9 @@
                 {{#if loggedIn}}
                 <li class="header-nav-list-item">
                     <h1 class="button-49">
-                        Welcome {{email}}
+                        Welcome 
+                        <i class="fas fa-user"></i>
+                        {{email}}
                     </h1>
                 </li>
                 <li class="header-nav-list-item">
@@ -37,17 +39,20 @@
                 </li>
                 <li class="header-nav-list-item">
                     <button class="button-49">
+                        <i class="fas fa-sign-out-alt"></i>
                         <a href="#/logout">Logout</a>
                     </button>
                 </li>
    {{else}}
     <li class="header-nav-list-item">
                     <button class="button-49">
+                        <i class="fas fa-sign-in-alt"></i>
                         <a href="#/login">Login</a>
                      </button>
                 </li>
                 <li class="header-nav-list-item">
                    <button class="button-49">
+                       <i class="fas fa-user-plus"></i>
                     <a href="#/register">Register</a>
                    </button>
                 </li>
