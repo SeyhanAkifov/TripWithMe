@@ -130,6 +130,12 @@ const router = Sammy('#container', function () {
 
     this.get('/create', async function (context) {
 
+        checkAuth(context);
+
+        if (!context.loggedIn) {
+            context.redirect('/')
+        }
+
         await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
@@ -180,6 +186,78 @@ const router = Sammy('#container', function () {
 
 
     });
+
+    this.get('/edit/:id', async function (context) {
+
+        checkAuth(context);
+
+        if (!context.loggedIn) {
+            context.redirect('/')
+        }
+
+        await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`)
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trip = data;
+                    
+                    context.trip.filter
+                    context.left = data.persons - data.joined.length
+                    context.isAuthor = data.creator == context.email ? true : undefined
+                    context.isJoined = data.joined.includes(context.email) ? true : undefined
+                    
+                 }
+            })
+            context.key = context.params.id
+            console.log(context);
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            
+            
+            
+        }).then(function () {
+            this.partial('../templates/edit/edit.hbs')
+        }).then(loading.style.display = "none")
+    });
+
+
+    this.get('/editTrip/:id', async function(context){
+        checkAuth(context);
+        const { firstName, lastName, destinationFrom, destinationTo, date, persons } = context.params;
+
+
+        if (!firstName || !lastName || !destinationFrom || !destinationTo || !date || !persons) {
+            showMessage(errorBox, "All input fields shouldn’t be empty")
+            return
+        }
+        
+        if(persons < 1 || persons > 25) {
+            showMessage(errorBox, 'Duration must be between 1…100');
+            return
+        }
+
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+        fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`,
+            {
+                method: "PATCH",
+                body: JSON.stringify({
+                    firstName : firstName, 
+                    lastName : lastName,
+                    destinationFrom : destinationFrom, 
+                    destinationTo : destinationTo, 
+                    date : date, 
+                    persons : persons,
+                   
+                })
+            })
+            .then(loading.style.display = "none")
+            .then(showMessage(successBox, 'Successfuly created destination'))
+            .then(async () => await context.redirect('/home'))
+    })
 
     this.get('/myTrips', async function (context){
 

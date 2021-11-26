@@ -366,6 +366,7 @@ body #container .header-nav-item-title {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .button-49 .delete{
@@ -463,6 +464,18 @@ footer {
 }
 .trip button{
   width: 80%;
+  margin-bottom: 10px;
+}
+
+.tripDetails button{
+  
+  margin-bottom: 10px;
+}
+
+.tripDetails button a {
+  color: white;
+  text-align: center;
+  text-decoration: none;
 }
 
 

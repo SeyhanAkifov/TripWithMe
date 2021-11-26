@@ -1,0 +1,38 @@
+{{> header}}
+
+<div class="wrapper">
+         <div class="title create">
+            Edit Trip
+         </div>
+         <form action="/editTrip/{{key}}" >
+         <div class="field">
+               <input type="text"  name ="firstName" required value="{{trip.firstName}}">
+               <label>First Name</label>
+            </div>
+            <div class="field">
+               <input type="text" name="lastName" required value="{{trip.lastName}}">
+               <label>Last Name</label>
+            </div>
+         <div class="field">
+               <input type="text"  name ="destinationFrom" required value="{{trip.destinationFrom}}">
+               <label>From</label>
+            </div>
+            <div class="field">
+               <input type="text" name="destinationTo" required value="{{trip.destinationTo}}">
+               <label>To</label>
+            </div>
+            <div class="field">
+               <input type="date"  name ="date" placeholder="none" required value="{{trip.date}}">
+               <label>Date</label>
+            </div>
+            <div class="field">
+               <input type="number" min="0" max="25" name ="persons" required value="{{trip.persons}}">
+               <label>Persons</label>
+            </div>
+            <div class="field">
+               <input type="submit" value="Update">
+            </div>
+            </form>
+      </div>
+
+      {{> footer}}
