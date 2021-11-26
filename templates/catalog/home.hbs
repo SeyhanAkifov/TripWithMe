@@ -1,11 +1,13 @@
 {{> header}}
 
-{{> search}}
+
 
 <main>
     <section id="viewCatalog" class="background-img">
     {{#if loggedIn}}
+        {{> search}}
     <div class="added-destinations">
+
         {{#each trips}}
         {{> trip}}
         {{/each}}

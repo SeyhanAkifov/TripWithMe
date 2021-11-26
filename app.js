@@ -203,11 +203,61 @@ const router = Sammy('#container', function () {
             await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
-            'trip' : './templates/catalog/trip.hbs'
+            'trip' : './templates/catalog/trip.hbs',
+            'search': './templates/search/search.hbs'
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
         }).then(loading.style.display = "none")
+    })
+
+    this.get('/details/:id', async function(context) {
+        checkAuth(context);
+        
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+
+        await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`)
+
+            .then(response => response.json())
+            .then(data => {
+
+                if (data) {
+                    context.trip = data;
+                    
+                    context.trip.filter
+                    context.left = data.persons - data.joined.length
+                    context.isAuthor = data.creator == context.email ? true : undefined
+                    context.isJoined = data.joined.includes(context.email) ? true : undefined
+                    
+                 }
+            })
+            context.key = context.params.id
+            console.log(context);
+            await this.loadPartials({
+            'header': './templates/common/header.hbs',
+            'footer': './templates/common/footer.hbs',
+            
+            
+            
+        }).then(function () {
+            this.partial('../templates/details/details.hbs')
+        }).then(loading.style.display = "none")
+    })
+
+    this.get('/delete/:id', async function(context) {
+        checkAuth(context);
+        
+        loading.textContent = "Loading...";
+        loading.style.display = "inline-block";
+        console.log(context);
+        await fetch(`https://tripwithme-28e45-default-rtdb.europe-west1.firebasedatabase.app/${context.params.id}.json`, {
+            method: "DELETE"
+        
+            
+        }).then(loading.style.display = "none")
+
+        context.redirect('/')
     })
 
     this.get('/myJoined', async function (context){
@@ -232,7 +282,8 @@ const router = Sammy('#container', function () {
             await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
-            'trip' : './templates/catalog/trip.hbs'
+            'trip' : './templates/catalog/trip.hbs',
+            'search': './templates/search/search.hbs'
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
@@ -293,7 +344,8 @@ const router = Sammy('#container', function () {
             await this.loadPartials({
             'header': './templates/common/header.hbs',
             'footer': './templates/common/footer.hbs',
-            'trip' : './templates/catalog/trip.hbs'
+            'trip' : './templates/catalog/trip.hbs',
+            'search': './templates/search/search.hbs'
             
         }).then(function () {
             this.partial('../templates/catalog/home.hbs')
